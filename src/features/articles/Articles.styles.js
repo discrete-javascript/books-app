@@ -40,12 +40,11 @@ export const BookContainer = styled.div(
       box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
       overflow: hidden;
       height: 90px;
-      flex: 0 32%;
     }
     .list .card .bottom {
       height: 0px;
       overflow: hidden;
-      width: 200px;
+      width: 500px;
       font-size: 12px;
       color: #777;
       font-weight: normal;
