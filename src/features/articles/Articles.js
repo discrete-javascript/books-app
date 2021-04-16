@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { BookContainer } from './Articles.styles';
 import Card from './Card';
 import ReactPaginate from 'react-paginate';
+import Modal from '../modal/Modal';
 
 function Articles() {
   const [articlesCollections, setArticlesCollections] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const [isLoaded, setisLoaded] = useState(false);
   const [currentPage, setcurrentPage] = useState(0);
+  const [showOverlay, setShowOverlay] = useState(false);
 
-  const URL = `https://content-store.explore.bfi.digital/api/articles?page=${currentPage}`;
+  const URL = `https://content-store.explore.bfi.digital/api/articles?page=${
+    currentPage + 1
+  }`;
 
   useEffect(() => {
     function handleFetch() {
@@ -35,9 +39,19 @@ function Articles() {
       return <Card key={card.uuid} {...card} />;
     });
   };
+
+  const handleShowOverlay = (toggle) => {
+    setShowOverlay(toggle);
+  };
   return (
     <>
       <BookContainer className="container">
+        <button
+          className="filter-button"
+          onClick={() => handleShowOverlay(true)}
+        >
+          Filter
+        </button>
         <div className="list flex-column bookscontent">
           {isLoaded ? getCards() : <div>loading...</div>}
         </div>
@@ -70,6 +84,7 @@ function Articles() {
           <div>loading...</div>
         )}
       </BookContainer>
+      <Modal show={showOverlay} handleShowOverlay={handleShowOverlay} />
     </>
   );
 }
