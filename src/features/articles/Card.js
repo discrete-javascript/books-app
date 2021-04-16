@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { extractAuthor } from './utils';
+import cx from 'classnames';
 
-function Card({ handleCardOpen, ...cardProps }) {
-  console.log(cardProps);
+function Card({ ...cardProps }) {
+  const [open, setOpen] = useState(false);
+  const handleCardOpen = (e) => {
+    setOpen(!open);
+  };
+
+  const cardClassName = cx('card flex-row', { open });
   return (
-    <div className="card flex-row" onClick={handleCardOpen}>
+    <div className={cardClassName} onClick={handleCardOpen}>
       <img
         src={cardProps.primary_image.url}
         className="book"
-        lazy="loading"
+        loading="lazy"
         alt="book"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = './no-thumbnail.png';
+        }}
       />
       <div className="flex-column info">
         <div className="title">{cardProps.title}</div>
