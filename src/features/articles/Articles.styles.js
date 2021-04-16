@@ -32,7 +32,6 @@ export const BookContainer = styled.div(
     }
     .list .card {
       cursor: pointer;
-      // min-width: 700px;
       margin-bottom: 2%;
       perspective: 600px;
       transition: all 0.1s;

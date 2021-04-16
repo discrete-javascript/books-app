@@ -3,31 +3,29 @@ import { BookContainer } from './Articles.styles';
 import Card from './Card';
 import ReactPaginate from 'react-paginate';
 import Modal from '../modal/Modal';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  articleAsync,
+  getArticleCollections,
+  getIsLoaded,
+  getTotal,
+} from './articlesSlice';
 
 function Articles() {
-  const [articlesCollections, setArticlesCollections] = useState([]);
-  const [pageCount, setPageCount] = useState(1);
-  const [isLoaded, setisLoaded] = useState(false);
+  const articlesCollections = useSelector(getArticleCollections);
+  const pageCount = useSelector(getTotal);
+  const isLoaded = useSelector(getIsLoaded);
   const [currentPage, setcurrentPage] = useState(0);
   const [showOverlay, setShowOverlay] = useState(false);
+
+  const dispatch = useDispatch();
 
   const URL = `https://content-store.explore.bfi.digital/api/articles?page=${
     currentPage + 1
   }`;
 
   useEffect(() => {
-    function handleFetch() {
-      setisLoaded(false);
-      fetch(URL)
-        .then((response) => response.json())
-        .then((body) => {
-          setArticlesCollections([...body.data]);
-          setPageCount(body.meta.total);
-          setisLoaded(true);
-        })
-        .catch((error) => console.error('Error', error));
-    }
-    handleFetch();
+    dispatch(articleAsync(URL));
   }, [URL]);
 
   const handlePageChange = (selectedObject) => {
