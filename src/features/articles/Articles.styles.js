@@ -3,44 +3,45 @@ import styled from 'styled-components';
 export const BookContainer = styled.div(
   () => `
     .bookscontent {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-    }
-    .flex-row {
-      display: flex;
-      flex-flow: row;
-      align-items: center;
-    }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 
-    .flex-column {
-      display: flex;
-      flex-flow: column;
-    }
+.flex-row {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+}
 
-    .center {
-      align-items: center;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
+.flex-column {
+  display: flex;
+  flex-flow: column;
+}
 
-    .list {
-      border-radius: 3px;
-      overflow: hidden;
-    }
-    .list .card {
-      cursor: pointer;
-      margin-bottom: 2%;
-      perspective: 600px;
-      transition: all 0.1s;
-      background-color: #212140;
-      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
-      overflow: hidden;
-      height: 90px;
-    }
-    .list .card .bottom {
+.center {
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.list {
+  border-radius: 3px;
+  overflow: hidden;
+
+  .card {
+    cursor: pointer;
+    margin-bottom: 2%;
+    perspective: 600px;
+    transition: all 0.1s;
+    background-color: #212140;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    height: 90px;
+
+    .bottom {
       height: 0px;
       overflow: hidden;
       width: 500px;
@@ -48,30 +49,36 @@ export const BookContainer = styled.div(
       color: #777;
       font-weight: normal;
     }
-    .list .card.open {
+
+    &.open {
       padding: 30px;
       height: auto;
+
+      .bottom {
+        margin-top: 10px;
+        height: 100%;
+        overflow: visible;
+      }
+
+      .book {
+        transform: rotateY(50deg);
+        box-shadow: -10px 10px 10px 2px rgba(0, 0, 0, 0.2), -2px 0px 0px 0px #888;
+        transition: all 0.5s;
+        transition-delay: 0.05s;
+      }
+
+      .info {
+        transform: translate(0, -10px);
+      }
+
+      .members {
+        padding: 15px 20px;
+        border-radius: 4px;
+        align-self: flex-start;
+      }
     }
-    .list .card.open .bottom {
-      margin-top: 10px;
-      height: 100%;
-      overflow: visible;
-    }
-    .list .card.open .book {
-      transform: rotateY(50deg);
-      box-shadow: -10px 10px 10px 2px rgba(0, 0, 0, 0.2), -2px 0px 0px 0px #888;
-      transition: all 0.5s;
-      transition-delay: 0.05s;
-    }
-    .list .card.open .info {
-      transform: translate(0, -10px);
-    }
-    .list .card.open .members {
-      padding: 15px 20px;
-      border-radius: 4px;
-      align-self: flex-start;
-    }
-    .list .card button.simple {
+
+    button.simple {
       cursor: pointer;
       color: #ccc;
       border: none;
@@ -82,54 +89,65 @@ export const BookContainer = styled.div(
       font-family: "Montserrat";
       font-weight: bold;
       transition: all 0.1s;
+
+      &:hover {
+        box-shadow: 0px 15px 20px -5px rgba(0, 0, 0, 0.3);
+        transform: translate(0, -2px);
+      }
     }
-    .list .card button.simple:hover {
-      box-shadow: 0px 15px 20px -5px rgba(0, 0, 0, 0.3);
-      transform: translate(0, -2px);
-    }
-    .list .card .book {
+
+    .book {
       transition: all 0.5s;
       width: 120px;
       box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
       overflow: hidden;
     }
-    .list .card .info {
+
+    .info {
       transition: all 0.2s;
       min-width: 200px;
       padding: 0px 30px;
       font-family: "Montserrat";
       font-weight: bold;
+
+      .title {
+        font-size: 1em;
+        color: #fff;
+        letter-spacing: 1px;
+      }
+
+      .author {
+        font-size: 12px;
+        font-weight: normal;
+        color: #888;
+      }
     }
-    .list .card .info .title {
-      font-size: 1em;
-      color: #fff;
-      letter-spacing: 1px;
-    }
-    .list .card .info .author {
-      font-size: 12px;
-      font-weight: normal;
-      color: #888;
-    }
-    .list .card .group {
+
+    .group {
       margin-left: auto;
     }
-    .list .card .members {
+
+    .members {
       transition: all 0.1s;
       padding: 40px;
       font-family: "Montserrat";
       color: #ccc;
       background-color: #1c1c36;
-    }
-    .list .card .members .current {
-      font-weight: bold;
-      margin-right: 10px;
-    }
-    .list .card .members .max {
-      opacity: 0.5;
-      margin-left: 10px;
-    }
 
-    .container {
+      .current {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .max {
+        opacity: 0.5;
+        margin-left: 10px;
+      }
+    }
+  }
+}
+
+.container {
   display: flex;
   list-style: none;
 }
@@ -178,11 +196,13 @@ export const BookContainer = styled.div(
   border: 1px solid white;
   color: white;
 }
+
 .filter-button {
   position: absolute;
   top: 15px;
   right: 0;
 }
+
 .clear-button {
   position: absolute;
   top: 15px;
