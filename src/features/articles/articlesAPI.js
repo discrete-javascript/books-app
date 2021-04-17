@@ -7,6 +7,6 @@
 export async function fetchArticle(URL) {
   return await fetch(URL)
     .then((response) => response.json())
-    .then((body) => body.data)
+    .then((body) => body)
     .catch((error) => console.error('Error', error));
 }

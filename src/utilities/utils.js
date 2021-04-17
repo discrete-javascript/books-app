@@ -5,7 +5,10 @@
  */
 export function extractAuthor(authors) {
   if (authors?.length) {
-    return authors.map((author) => author.name).join(', ');
+    return authors
+      .map((author) => author.name)
+      .slice(0, 4)
+      .join(', ');
   }
 }
 

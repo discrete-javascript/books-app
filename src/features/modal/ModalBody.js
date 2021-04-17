@@ -7,9 +7,11 @@ import {
   getAllAuthors,
   getAllTypes,
   filterArticleCollectionAsync,
+  toggleIsFiltered,
+  changeApiUrl,
 } from '../articles/articlesSlice';
 import { createReactSelectKeys, urlConstructor } from '../../utilities/utils';
-import { ModalBodyContainer } from './Modal.styles';
+import { ButtonContainer, ModalBodyContainer } from './Modal.styles';
 
 const AUTHOR = 'AUTHOR';
 const TYPE = 'TYPE';
@@ -66,7 +68,7 @@ function ModalBody() {
       author: selectedAuthor,
       type: selectedType,
     });
-
+    dispatch(changeApiUrl(getUrl));
     dispatch(filterArticleCollectionAsync(getUrl));
   };
 
@@ -92,14 +94,14 @@ function ModalBody() {
           onChange={(e) => handleSelect(e, TYPE)}
         />
       </div>
-      <div>
+      <ButtonContainer>
         <button
           disabled={!(selectedAuthor || selectedType)}
           onClick={handleFilter}
         >
           Filter
         </button>
-      </div>
+      </ButtonContainer>
     </ModalBodyContainer>
   );
 }

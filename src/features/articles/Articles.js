@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { BookContainer } from './Articles.styles';
 import Card from './Card';
 import ReactPaginate from 'react-paginate';
@@ -7,22 +7,36 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   articleAsync,
   getArticleCollections,
+  getCurrentPage,
   getIsLoaded,
   getTotal,
   toggleOverlay,
+  setCurrentPage,
+  getIsFiltered,
+  getApiUrl,
+  toggleIsFiltered,
 } from './articlesSlice';
 
 function Articles() {
   const articlesCollections = useSelector(getArticleCollections);
   const pageCount = useSelector(getTotal);
   const isLoaded = useSelector(getIsLoaded);
-  const [currentPage, setcurrentPage] = useState(0);
+  const currentPage = useSelector(getCurrentPage);
+  const isFiltered = useSelector(getIsFiltered);
+  const apiUrl = useSelector(getApiUrl);
 
   const dispatch = useDispatch();
 
-  const URL = `https://content-store.explore.bfi.digital/api/articles?page=${
+  let URL = `https://content-store.explore.bfi.digital/api/articles?page=${
     currentPage + 1
   }`;
+
+  useEffect(() => {
+    if (isFiltered) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      URL = `${apiUrl}&page=${currentPage + 1}`;
+    }
+  });
 
   useEffect(() => {
     dispatch(articleAsync(URL));
@@ -34,7 +48,7 @@ function Articles() {
    * @return no return value.
    */
   const handlePageChange = (selectedObject) => {
-    setcurrentPage(selectedObject.selected);
+    dispatch(setCurrentPage(selectedObject.selected));
   };
 
   /**
@@ -70,6 +84,8 @@ function Articles() {
         'https://content-store.explore.bfi.digital/api/articles?page=1'
       )
     );
+    dispatch(setCurrentPage(0));
+    dispatch(toggleIsFiltered(false));
   };
 
   return (

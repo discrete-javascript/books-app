@@ -14,6 +14,9 @@ export const initialState = {
     data: [],
   },
   showOverlay: false,
+  apiUrl: 'https://content-store.explore.bfi.digital/api/articles?page=1',
+  page: 0,
+  isFiltered: false,
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -60,21 +63,34 @@ export const articleSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    total: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      return state;
-    },
+    // Redux Toolkit allows us to write "mutating" logic in reducers. It
+    // doesn't actually mutate the state because it uses the Immer library,
+    // which detects changes to a "draft state" and produces a brand new
+    // immutable state based off those changes
     // Use the PayloadAction type to declare the contents of `action.payload`
-    articleCollections: (state, action) => {
-      return state;
+
+    changeApiUrl: (state, action) => {
+      return {
+        ...state,
+        apiUrl: action.payload,
+      };
     },
     toggleOverlay: (state) => {
       return {
         ...state,
         showOverlay: !state.showOverlay,
+      };
+    },
+    setCurrentPage: (state, action) => {
+      return {
+        ...state,
+        page: action.payload,
+      };
+    },
+    toggleIsFiltered: (state, action) => {
+      return {
+        ...state,
+        isFiltered: action.payload,
       };
     },
   },
@@ -130,12 +146,19 @@ export const articleSlice = createSlice({
           isLoaded: true,
           total: action.payload.meta.total,
           showOverlay: false,
+          isFiltered: true,
+          page: 0,
         };
       });
   },
 });
 
-export const { toggleOverlay } = articleSlice.actions;
+export const {
+  toggleOverlay,
+  setCurrentPage,
+  changeApiUrl,
+  toggleIsFiltered,
+} = articleSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
@@ -148,5 +171,8 @@ export const getTotal = (state) => state.articles.total;
 export const getAllAuthors = (state) => state.articles.authors;
 export const getAllTypes = (state) => state.articles.types;
 export const showOverlay = (state) => state.articles.showOverlay;
+export const getCurrentPage = (state) => state.articles.page;
+export const getApiUrl = (state) => state.articles.apiUrl;
+export const getIsFiltered = (state) => state.articles.isFiltered;
 
 export default articleSlice.reducer;
