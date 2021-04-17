@@ -1,5 +1,36 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+# Books App
+This application does
 
+1. Loads data from the API
+1. Displays results to a user via a web browser
+1. Allows the user to interact by filtering by article type or author
+
+## Major features
+
+1. Auto completes searches in the filtering
+1. Used react pagination for skim through all the datasets given
+
+## APIs used by this application
+
+* Used to display the initial article result by specifying the page number
+https://content-store.explore.bfi.digital/api/articles?page=1
+* Used this api to filter based on author or article type:
+    * https://content-store.explore.bfi.digital/api/articles?author={author-id}
+    * https://content-store.explore.bfi.digital/api/articles?type={review-id}
+    * https://content-store.explore.bfi.digital/api/articles?author={author-id}&type={review-id}
+* Created filter based on these APIs
+    https://content-store.explore.bfi.digital/api/types
+    https://content-store.explore.bfi.digital/api/authors
+
+## Application Tech stack
+* React
+* Styled Components
+* Redux
+* Redux Toolkit
+* React Paginate
+* React Select
+* Classnames
+---
 ## Available Scripts
 
 In the project directory, you can run:
