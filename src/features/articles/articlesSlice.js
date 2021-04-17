@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchArticle } from './articlesAPI';
 
-const initialState = {
+export const initialState = {
   articleCollections: [],
   isLoaded: false,
   total: 0,
@@ -140,6 +140,7 @@ export const { toggleOverlay } = articleSlice.actions;
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
+
 export const getArticleCollections = (state) =>
   state.articles.articleCollections;
 export const getIsLoaded = (state) => state.articles.isLoaded;

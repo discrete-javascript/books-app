@@ -5,12 +5,16 @@ import cx from 'classnames';
 function Card({ ...cardProps }) {
   const [open, setOpen] = useState(false);
   const handleCardOpen = (e) => {
-    setOpen(!open);
+    setOpen(true);
   };
 
   const cardClassName = cx('card flex-row', { open });
   return (
-    <div className={cardClassName} onClick={handleCardOpen}>
+    <div
+      className={cardClassName}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
       <img
         src={cardProps.primary_image.url}
         className="book"
