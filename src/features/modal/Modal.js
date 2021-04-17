@@ -1,33 +1,27 @@
 import React from 'react';
 import ReactModal from 'react-modal';
-import styled from 'styled-components';
+import ModalBody from './ModalBody';
+import { ModalContainer } from './Modal.styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { showOverlay, toggleOverlay } from '../articles/articlesSlice';
 
-const ModalContainer = styled.div(
-  () => `
-.close-button {
-   padding: 10px;
-  border-radius: 6px;
-  margin-right: 10px;
-  cursor: pointer;
-  background: #131325;
-  border: 1px solid white;
-  color: white;
-  float: right;
-}
-`
-);
-
-function Modal({ show, handleShowOverlay }) {
-  const handleCloseModal = () => {
-    handleShowOverlay(false);
-  };
-
+function Modal() {
+  const dispatch = useDispatch();
+  const show = useSelector(showOverlay);
   return (
-    <ReactModal isOpen={show} contentLabel="Filter Modal">
+    <ReactModal isOpen={show} contentLabel="Filter Modal" ariaHideApp={false}>
       <ModalContainer>
-        <button onClick={handleCloseModal} className="close-button">
-          X
-        </button>
+        <div>
+          <button
+            onClick={() => dispatch(toggleOverlay())}
+            className="close-button"
+          >
+            X
+          </button>
+        </div>
+        <div>
+          <ModalBody />
+        </div>
       </ModalContainer>
     </ReactModal>
   );

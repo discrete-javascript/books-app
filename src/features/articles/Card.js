@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { extractAuthor } from './utils';
+import { extractAuthor } from '../../utilities/utils';
 import cx from 'classnames';
 
 function Card({ ...cardProps }) {

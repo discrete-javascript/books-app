@@ -9,6 +9,7 @@ import {
   getArticleCollections,
   getIsLoaded,
   getTotal,
+  toggleOverlay,
 } from './articlesSlice';
 
 function Articles() {
@@ -16,7 +17,6 @@ function Articles() {
   const pageCount = useSelector(getTotal);
   const isLoaded = useSelector(getIsLoaded);
   const [currentPage, setcurrentPage] = useState(0);
-  const [showOverlay, setShowOverlay] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -38,17 +38,26 @@ function Articles() {
     });
   };
 
-  const handleShowOverlay = (toggle) => {
-    setShowOverlay(toggle);
+  const handleShowOverlay = () => {
+    dispatch(toggleOverlay());
   };
+
+  const handleClearFilter = () => {
+    dispatch(
+      articleAsync(
+        'https://content-store.explore.bfi.digital/api/articles?page=1'
+      )
+    );
+  };
+
   return (
     <>
       <BookContainer className="container">
-        <button
-          className="filter-button"
-          onClick={() => handleShowOverlay(true)}
-        >
+        <button className="filter-button" onClick={() => handleShowOverlay()}>
           Filter
+        </button>
+        <button className="clear-button" onClick={() => handleClearFilter()}>
+          Clear Filter
         </button>
         <div className="list flex-column bookscontent">
           {isLoaded ? getCards() : <div>loading...</div>}
@@ -79,10 +88,10 @@ function Articles() {
             forcePage={currentPage}
           />
         ) : (
-          <div>loading...</div>
+          <div></div>
         )}
       </BookContainer>
-      <Modal show={showOverlay} handleShowOverlay={handleShowOverlay} />
+      <Modal />
     </>
   );
 }

@@ -169,7 +169,7 @@ export const BookContainer = styled.div(
   cursor: pointer;
 }
 
-.go-to-start, .filter-button, .close-button {
+.go-to-start, .filter-button, .close-button, .clear-button {
   padding: 10px;
   border-radius: 6px;
   margin-right: 10px;
@@ -182,6 +182,11 @@ export const BookContainer = styled.div(
   position: absolute;
   top: 15px;
   right: 0;
+}
+.clear-button {
+  position: absolute;
+  top: 15px;
+  right: 70px;
 }
 `
 );

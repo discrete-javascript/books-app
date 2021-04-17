@@ -5,6 +5,15 @@ const initialState = {
   articleCollections: [],
   isLoaded: false,
   total: 0,
+  authors: {
+    isLoaded: false,
+    data: [],
+  },
+  types: {
+    isLoaded: false,
+    data: [],
+  },
+  showOverlay: false,
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -14,6 +23,31 @@ const initialState = {
 // typically used to make async requests.
 export const articleAsync = createAsyncThunk(
   'article/fetchArticle',
+  async (url) => {
+    const response = await fetchArticle(url);
+    // The value we return becomes the `fulfilled` action payload
+    return response;
+  }
+);
+export const authorsAsync = createAsyncThunk(
+  'article/fetchAuthors',
+  async (url) => {
+    const response = await fetchArticle(url);
+    // The value we return becomes the `fulfilled` action payload
+    return response;
+  }
+);
+export const typesAsync = createAsyncThunk(
+  'article/fetchTypes',
+  async (url) => {
+    const response = await fetchArticle(url);
+    // The value we return becomes the `fulfilled` action payload
+    return response;
+  }
+);
+
+export const filterArticleCollectionAsync = createAsyncThunk(
+  'article/filterArticleCollection',
   async (url) => {
     const response = await fetchArticle(url);
     // The value we return becomes the `fulfilled` action payload
@@ -31,11 +65,17 @@ export const articleSlice = createSlice({
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      state.total += 1;
+      return state;
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
     articleCollections: (state, action) => {
       return state;
+    },
+    toggleOverlay: (state) => {
+      return {
+        ...state,
+        showOverlay: !state.showOverlay,
+      };
     },
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
@@ -47,15 +87,55 @@ export const articleSlice = createSlice({
       })
       .addCase(articleAsync.fulfilled, (state, action) => {
         return {
+          ...state,
           articleCollections: action.payload.data,
           isLoaded: true,
           total: action.payload.meta.total,
         };
       });
+    builder
+      .addCase(authorsAsync.pending, (state) => {
+        state.authors.isLoaded = false;
+      })
+      .addCase(authorsAsync.fulfilled, (state, action) => {
+        return {
+          ...state,
+          authors: {
+            isLoaded: true,
+            data: action.payload.data,
+          },
+        };
+      });
+    builder
+      .addCase(typesAsync.pending, (state) => {
+        state.types.isLoaded = false;
+      })
+      .addCase(typesAsync.fulfilled, (state, action) => {
+        return {
+          ...state,
+          types: {
+            isLoaded: true,
+            data: action.payload.data,
+          },
+        };
+      });
+    builder
+      .addCase(filterArticleCollectionAsync.pending, (state) => {
+        state.isLoaded = false;
+      })
+      .addCase(filterArticleCollectionAsync.fulfilled, (state, action) => {
+        return {
+          ...state,
+          articleCollections: action.payload.data,
+          isLoaded: true,
+          total: action.payload.meta.total,
+          showOverlay: false,
+        };
+      });
   },
 });
 
-export const { increment, decrement, incrementByAmount } = articleSlice.actions;
+export const { toggleOverlay } = articleSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
@@ -64,5 +144,8 @@ export const getArticleCollections = (state) =>
   state.articles.articleCollections;
 export const getIsLoaded = (state) => state.articles.isLoaded;
 export const getTotal = (state) => state.articles.total;
+export const getAllAuthors = (state) => state.articles.authors;
+export const getAllTypes = (state) => state.articles.types;
+export const showOverlay = (state) => state.articles.showOverlay;
 
 export default articleSlice.reducer;
